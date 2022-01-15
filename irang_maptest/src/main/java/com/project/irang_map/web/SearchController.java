@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
+//import java.util.HashMap;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -24,27 +24,27 @@ import java.util.List;
 public class SearchController {
     private final KidsmapService kidsmapService;
 
-    @PostMapping("/search1")
-    //@ResponseBody
-        public List<KidsmapListResponseDto> search1(@RequestBody KidsmapDto kidsmapDto) {
-    //public List<KidsmapListResponseDto> search1(@RequestParam HashMap< String, Object> param) {
-        System.out.println("asasasasasasas");
-        return kidsmapService.findAllByAddr("%강서%"); // 이런걸로 리턴해야할것같은데
-        //return kidsmapService.findAllByAddr("%" + param.get("juso") + "%"); // 이런걸로 리턴해야할것같은데
-    }
+    // @PostMapping("/search1")
+    // //@ResponseBody
+    //     public List<KidsmapListResponseDto> search1(@RequestBody KidsmapDto kidsmapDto) {
+    // //public List<KidsmapListResponseDto> search1(@RequestParam HashMap< String, Object> param) {
+    //     System.out.println("asasasasasasas");
+    //     return kidsmapService.findAllByAddr("%강서%"); // 이런걸로 리턴해야할것같은데
+    //     //return kidsmapService.findAllByAddr("%" + param.get("juso") + "%"); // 이런걸로 리턴해야할것같은데
+    // }
 
-    @PostMapping("/search")
-    @ResponseBody  // json 으로 전달
-    public List<KidsmapListResponseDto> serch(@RequestParam(value = "juso") String juso){
-        System.out.println("asasasasasasas");
-        return kidsmapService.findAllByAddr("%" + juso + "%"); // 이런걸로 리턴해야할것같은데
-    }
+    // @PostMapping("/search")
+    // @ResponseBody  // json 으로 전달
+    // public List<KidsmapListResponseDto> search(@RequestParam(value = "juso") String juso){
+    //     return kidsmapService.findAllByAddr("%" + juso + "%");
+    //              // 이런걸로 리턴해야할것같은데
+    // }
     
     //화면에 보여줌
-    //@GetMapping("/search")
-   //// public String serch(Model model, @RequestParam(value = "juso") String juso){
-    //    model.addAttribute("kidsmap", kidsmapService.findAllByAddr("%" + juso + "%"));
-    //    return "kidsmap";
-    //}
+    @GetMapping("/search")
+    public String search(Model model, @RequestParam(value = "juso") String juso){
+       model.addAttribute("kidsmap", kidsmapService.findAllByAddr("%" + juso + "%"));
+       return "kidsmap";
+    }
 
 }
