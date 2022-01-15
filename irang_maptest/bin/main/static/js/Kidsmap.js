@@ -1,15 +1,51 @@
+//검색버튼 이벤트
+
+$("#inputbtn").click(function() {
+    selectStore();
+});
 //셀 클릭하면 해당가게가 있는 마커를 보여주는 함수이고싶다
-function showMarker(){
-    //console.log({addr});//addr not defined
+//var data={addr: addr};//뒤의 addr undefined
+function selectStore(){
+    //var param = {
+    //    juso:  $("#juso").val()
+        // store: store,
+        // addr: addr,
+        // category: category
+        //store: $("#juso").val(store),
+        //addr: $("#juso").val(addr),
+        //category: $("#juso").val(category)
+
+    //};
+    var param = {juso : '강서구'};
     //searchcontroller의 postmapping했던걸 가져오면? 그건 검색결과 전체인데 클릭한 값만 나오게하려면?
-        $.ajax({
-        type: 'GET',
+    $.ajax({
+        type: 'POST',
         url: '/search',
         dataType: 'json',
         contentType : 'application/json; charset=utf-8',
-        data : JSON.stringify(data)
+        //data : JSON.stringify(param)
+        data : param
+    }).done(function(data){
+     
+           //결과 list
+        setList(data);
     })
 }
+
+function setList(data){
+    $("kidsmaplist").append(str);
+   // setMarker(data[i].addr);
+    //setMarker(data);
+
+    var str = '<tr style="cursor:pointer" onclick="selectStore()">'
+        '<td>' + data[i].store+ '</td>'
+        '<td>'+ data[i].addr+'</td>'
+        '<td>'+ data[i].category+'</td>'
+        '<td><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" alt="marker img"></td>'
+    '</tr>';
+$("kidsmaplist").append(str);
+}
+
 //카카오맵
 
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
@@ -20,13 +56,20 @@ var mapContainer = document.getElementById('map'), // 지도를 표시할 div
 
 // 지도를 생성합니다    
 var map = new kakao.maps.Map(mapContainer, mapOption); 
+var bounds = new kakao.maps.LatLngBounds();  
 
 // 주소-좌표 변환 객체를 생성합니다
 var geocoder = new kakao.maps.services.Geocoder();
-//화면에 출력되는 주소 가져오고싶음
-//var address=['여기에 주소를', '넣고'] for문에 넣어서 좌표로 모두 변환
-for (var i = 0; i < address.length; i ++){
+//화면에 출력되는 주소 가져오고싶음 postmapping도 postman에서 확인해보니 json 형식으로 보냄 거기서 addr만 가져오면?
+//var address=[{"%"+addr+"%"}]
+var address=['부산시 연제구 거제동 242-23', '부산시 연제구 거제동 79-28', '부산시 연제구 연산동 708-9']
 
+function setMarker(data){
+
+}
+//for문에 넣어서 좌표로 모두 변환
+for (var i = 0; i < address.length; i ++){
+    
 // 주소로 좌표를 검색합니다
 geocoder.addressSearch(address[i], function(result, status) {
 
@@ -41,12 +84,15 @@ geocoder.addressSearch(address[i], function(result, status) {
             position: coords
         });
 
-       
-        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다 이러지말고 첫번째로 받은 결과값의 위치로 이동시키기
-        map.setCenter(coords);
+        
+        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+        //map.setCenter(coords);
+        bounds.extend( coords);
     } 
 }) 
+//map.setBounds(bounds);
 }
+
 
 
 //마커 여러개 이벤트(갖다대면 커지고, 클릭하면 색 변함, 다른마커 클릭하면 클릭한 마커 색 변하고 이전마커는 원래 색으로)
