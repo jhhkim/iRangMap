@@ -1,0 +1,44 @@
+{{>layout/header}}
+<div class="selectdongnae">
+    
+    <h3 style="text-align: center;">원하는 동네를 입력하세요</h3>
+    
+    <!-- <form> -->
+        <div class="inputbox">
+        <input type="text" id="juso" name="juso" placeholder="Ex) 00시 00구">
+        </div>
+        <button id="inputbtn">검색</button>
+    <!-- </form> -->
+
+    <div class="mapcontainer">
+        <div id="map"></div>
+    </div>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=153434e592fa10a5ebecb3d7cfb9cc22&libraries=services,clusterer,drawing"></script>
+    <script src="/js/Kidsmap.js"></script>
+
+
+<!-- 검색결과들만 위치마커로 지도에 띄워야함+셀 클릭하면 해당 가게마커 보여주게 -->
+<table class="storeTable">
+    <thead>
+        <tr>
+            <!-- <th>번호</th> -->
+            <th>가게이름</th>
+            <th>주소</th>
+            <th>업종</th>
+        </tr>
+    </thead>
+    <tbody id="kidsmaplist" >
+        
+        <!-- {{#kidsmap}}
+        <tr style="cursor:pointer" onclick="showMarker()">
+            <td>{{store}}</td>
+            <td>{{addr}}</td>
+            <td>{{category}}</td>
+        </tr>
+       
+        {{/kidsmap}} -->
+      </tbody>
+</table>
+
+       
+{{>layout/footer}}
