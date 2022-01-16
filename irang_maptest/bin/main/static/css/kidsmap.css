@@ -50,7 +50,7 @@ th, td {
     border-bottom: 1px solid;
     padding: 10px;
   }
-
+/* 이미지 가운데 텍스트 얹기 test용
   .setbox{
       position: relative;
   }
@@ -60,4 +60,4 @@ th, td {
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-  }
+  } */

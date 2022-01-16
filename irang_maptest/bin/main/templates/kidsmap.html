@@ -2,10 +2,7 @@
 <div class="selectdongnae">
     
     <h3 style="text-align: center;">원하는 동네를 입력하세요</h3>
-    <!-- http://localhost:8080/search?juso=부산시+동래구 로 넘어가는데 400error 
-        "Required request parameter 'juso' for method parameter type String is not present"
-        path: "/search" 
-    input에서 입력한게 넘어간거 아닌가? 왜-->
+
     <form action="/search" method="get">
         <div class="inputbox">
         <input type="text" id="juso" name="juso" placeholder="Ex) 00시 00구">
@@ -16,26 +13,12 @@
     <div class="mapcontainer">
         <div id="map"></div>
     </div>
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=153434e592fa10a5ebecb3d7cfb9cc22&libraries=services,clusterer,drawing"></script>
+    <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=153434e592fa10a5ebecb3d7cfb9cc22&libraries=services"></script>
     <script src="/js/Kidsmap.js"></script>
-    <script>
-        var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-    mapOption = {
-        center: new kakao.maps.LatLng(35.179937855685, 129.07691415917), // 지도의 중심좌표(시청)
-        level: 3 // 지도의 확대 레벨
-    };  
 
-// 지도를 생성합니다    
-var map = new kakao.maps.Map(mapContainer, mapOption); 
-var bounds = new kakao.maps.LatLngBounds();
-    </script>
-
-<!-- 검색결과들만 위치마커로 지도에 띄워야함+셀 클릭하면 해당 가게마커 보여주게 -->
 <table class="storeTable">
     <thead>
         <tr>
-            <!-- <th>번호</th> -->
-            
             <th>가게이름</th>
             <th>주소</th>
             <th>업종</th>
@@ -43,32 +26,32 @@ var bounds = new kakao.maps.LatLngBounds();
         </tr>
     </thead>
     <tbody id="kidsmaplist" >
-<!--         
         {{#kidsmap}}
         <tr>
             <td>{{store}}</td>
-            <td class="addrInfo">{{addr}}</td>
+            <td>{{addr}}</td>
             <td>{{category}}</td>
-            <td style="cursor:pointer;" onclick="showMarker()"><div class="setbox"><img src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" alt="marker img" class="markerImg">
-            <div class="textbox" style="font-size: 0.001px; opacity: 0;">{{addr}}</div></div></td>
+            <td style="cursor:pointer;"><img class="markerImg" src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" alt="marker img"></td>
         </tr>
         {{/kidsmap}}
-     -->
       </tbody>
 </table>
-
+<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
 <script>
-// $("#kidsmaplist").ready(function(){
-
-// })
-//     $(".markerImg").click(function(){
-//         alert($(".textbox").text());
-//         //모든 주소목록 나옴 부산시 동래구 11-4부산시 동래구...
-//     });
-
-//출력된 검색 지역으로 지도 이동, 마커 표시
-
 //아이콘을 클릭하면 해당 가게 위치마커가 중심으로 가게 지도가 이동되는 함수
+//아이콘 클릭했을 때 주소 alert로 띄워보기
+$(".markerImg").click(function(){
+    //현재 행 정보 가져옴
+    var thisRow = $('.storeTable').closest('tr');//아무 행의 아이콘 눌렀을때 thisRow=init[prevObject: init(1), context: document] 뜸
+
+    //주소 들고오기
+    var oneAddr = thisRow.find('td:eq(1)').val();
+
+    alert(oneAddr);
+    //oneAddr undefined
+
+})
+
 
 </script>
 {{>layout/footer}}
