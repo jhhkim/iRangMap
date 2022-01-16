@@ -31,26 +31,32 @@
             <td>{{store}}</td>
             <td>{{addr}}</td>
             <td>{{category}}</td>
-            <td style="cursor:pointer;"><img class="markerImg" src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" alt="marker img"></td>
+            <td style="cursor:pointer;"><img class="markerImg" onclick="showMarker()" src="https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png" alt="marker img"></td>
         </tr>
         {{/kidsmap}}
       </tbody>
 </table>
-<script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+
 <script>
-//아이콘을 클릭하면 해당 가게 위치마커가 중심으로 가게 지도가 이동되는 함수
 //아이콘 클릭했을 때 주소 alert로 띄워보기
-$(".markerImg").click(function(){
-    //현재 행 정보 가져옴
-    var thisRow = $('.storeTable').closest('tr');//아무 행의 아이콘 눌렀을때 thisRow=init[prevObject: init(1), context: document] 뜸
+// $(".markerImg").click(function(){
+//     //현재 행 정보 가져옴
+//     var thisRow = $('.storeTable').closest('tr');//아무 행의 아이콘 눌렀을때 thisRow=init[prevObject: init(1), context: document] 뜸
 
-    //주소 들고오기
-    var oneAddr = thisRow.find('td:eq(1)').val();
+//     //주소 들고오기
+//     var oneAddr = thisRow.find('td:eq(1)').val();
 
-    alert(oneAddr);
-    //oneAddr undefined
+//     alert(oneAddr);
+//     //oneAddr undefined
 
-})
+// })
+
+// //1행의 2열 정보값 나옴
+// $(".markerImg").click(function(){
+//     var testA = document.getElementById("kidsmaplist").getElementsByTagName("tr")[0].getElementsByTagName("td")[1].innerHTML;
+//     alert(testA);
+// })
+
 
 
 </script>
