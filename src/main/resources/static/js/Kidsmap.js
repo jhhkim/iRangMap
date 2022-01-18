@@ -53,8 +53,7 @@ $("#kidsmaplist").ready(function(){
 //주소-좌표 변환 객체 생성
 var geocoder = new kakao.maps.services.Geocoder();
 //service라이브러리 추가했는데 Geocoder인식안됨(&libraries=services 붙어있는 링크만 apikey값넣어서 스크립트src에 넣고 나머지 삭제하니까 해결)
-//여러 함수에서 쓸 marker 전역변수 선언
-var marker;
+
 //검색결과로 나온 주소들 배열에 넣는 함수
 var address = [];
 function getAddress(){
@@ -95,7 +94,7 @@ function setMarker(){
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
         
                 // 결과값으로 받은 위치를 마커로 표시합니다
-                marker = new kakao.maps.Marker({
+                var marker = new kakao.maps.Marker({
                 map: map,
                 position: coords
                 
@@ -119,8 +118,9 @@ function setMarker(){
 // }
 
 
-
-var counterVal=0;
+//if else구문에서 쓸 marker 변수
+var marker;
+var counterVal=0;//이걸 showMarker안으로 넣으면 함수 실행할때마다 리셋됨!
 function showMarker(){ 
     $('#kidsmaplist').find('tr').click(function(){
         //var tr = $(this);
@@ -145,14 +145,14 @@ function showMarker(){
                     counterVal++;
                     alert(counterVal);
                 //새 마커를 생성합니다
-                marker = new kakao.maps.Marker({
+                marker = new kakao.maps.Marker({ //if문 안에서 var marker라고 쓰면 else에서 marker 인식 못함
                 map: map,
                 position: coords,
                 image: markerImage
                 
                     });
                 } else { //counterVal이 1이상이면 여기로 바로 빠짐
-                    marker.setPosition(coords);//error undefined
+                    marker.setPosition(coords);//마커를 받은 좌표coords로 옮긴다
                 }
                  //레벨도 조정
                 // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
