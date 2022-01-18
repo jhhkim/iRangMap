@@ -35,6 +35,11 @@ public class IndexController {
         return "kidsmap";
     }
 
+    @GetMapping("/board")
+    public String board(){
+        return "board";
+    }
+
     @GetMapping("/login")
     public String login(){
         return "login";

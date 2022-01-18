@@ -44,6 +44,7 @@ public class SearchController {
     @GetMapping("/search")
     public String search(Model model, @RequestParam(value = "juso") String juso){
        model.addAttribute("kidsmap", kidsmapService.findAllByAddr("%" + juso + "%"));
+       //SELECT * FROM aidb.kidsmap WHERE addr LIKE '%부산시 연제구%'
        return "kidsmap";
     }
 

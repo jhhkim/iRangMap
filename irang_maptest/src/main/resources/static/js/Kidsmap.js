@@ -55,14 +55,15 @@ var geocoder = new kakao.maps.services.Geocoder();
 //service라이브러리 추가했는데 Geocoder인식안됨(&libraries=services 붙어있는 링크만 apikey값넣어서 스크립트src에 넣고 나머지 삭제하니까 해결)
 
 //검색결과로 나온 주소들 배열에 넣는 함수
-// function getAddress(){
-//     var address = [];
-//     var rows = document.getElementById("kidsmaplist").getElementsByTagName("tr");//tbody행 개수 구하기
-//     for (i = 0; i < rows.length; i++) {
-//         var adr = document.getElementById("kidsmaplist").getElementsByTagName("tr")[i].getElementsByTagName("td")[1].innerHTML;//addr이 있는 두번째 열 값 가져옴
-//         address.push(adr);//address 배열에 넣음
-//     }
-// }
+var address = [];
+function getAddress(){
+    
+    var rows = document.getElementById("kidsmaplist").getElementsByTagName("tr");//tbody행 개수 구하기
+    for (i = 0; i < rows.length; i++) {
+        var adr = document.getElementById("kidsmaplist").getElementsByTagName("tr")[i].getElementsByTagName("td")[1].innerHTML;//addr이 있는 두번째 열 값 가져옴
+        address.push(adr);//address 배열에 넣음
+    }
+}
 
 //address배열에 직접 주소 입력하는 대신 검색결과로 나온 주소를 넣어주면 됨
 // var address=['부산시 강서구 범방동 1901-10',
@@ -80,13 +81,7 @@ var geocoder = new kakao.maps.services.Geocoder();
 // '부산시 강서구 명지동 3395-4']
 
 function setMarker(){
-    //address.length의 address undefined라고 떠서 getAddress함수 안 내용 그대로 넣음
-    var address = [];
-    var rows = document.getElementById("kidsmaplist").getElementsByTagName("tr");
-    for (i = 0; i < rows.length; i++) {
-        var adr = document.getElementById("kidsmaplist").getElementsByTagName("tr")[i].getElementsByTagName("td")[1].innerHTML;
-        address.push(adr);
-    }
+    getAddress();
     //for문에 넣어서 좌표로 모두 변환
     for(var i = 0; i<address.length; i++){
                 
@@ -122,51 +117,71 @@ function setMarker(){
 //     });
 // }
 
-function showMarker(){
+
+var marker;
+var counterVal=0;
+function showMarker(){ 
     $('#kidsmaplist').find('tr').click(function(){
         //var tr = $(this);
         var td = $(this).children();
-        var myPick = td.eq(1).text();//위치보기 아이콘 클릭하면 해당 행의 2번째열 내용 받음
-
+        var myPick = td.eq(1).text();//위치보기 아이콘 클릭하면 해당 행의 2번째열(주소) 내용 받음
+        
         geocoder.addressSearch(myPick, function(result, status){
             //정상적으로 검색이 완료됐으면
             if (status === kakao.maps.services.Status.OK){
                 var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-
                 // 결과값으로 받은 위치를 새 마커로 표시합니다(기존 마커 위에 얹음)
                 // 마커 이미지의 이미지 주소입니다
                 var imageSrc = "https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png";
                 // 마커 이미지의 이미지 크기 입니다
-                var imageSize = new kakao.maps.Size(28.36, 41.36);//original size(24,35) 1.5배(35.97, 52.46)
+                var imageSize = new kakao.maps.Size(28.36, 41.36);//original size(24,35)
                 // 마커 이미지를 생성합니다    
                 var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-                //마커를 생성합니다
+                
+                
+                //markerImg클래스 클릭횟수 카운트 0=i 이면 생성 초과면 marker.setPosition(coords);
+                if (counterVal==0){
+                    counterVal++;
+                    alert(counterVal);
+                //새 마커를 생성합니다
                 var marker = new kakao.maps.Marker({
                 map: map,
                 position: coords,
                 image: markerImage
                 
-        });
+                    });
+                } else { //counterVal이 1이상이면 여기로 바로 빠짐
+                    marker.setPosition(coords);//error undefined
+                }
                  //레벨도 조정
                 // 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성합니다
                 var bounds = new kakao.maps.LatLngBounds();
                 // LatLngBounds 객체에 좌표를 추가한다
-                 bounds.extend(coords);
+                bounds.extend(coords);
                 // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다(레벨변화로 줌은 안일어났음)
                 //map.setCenter(coords);
                 // LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정합니다
                 // 이때 지도의 중심좌표와 레벨이 변경될 수 있습니다
                 map.setBounds(bounds);
-                // //다른 행의 위치보기 아이콘 누르면 입힌 마커 없어지게, 같은 행의 아이콘 또 눌러도 마커 또 위에 생기지 않게하고싶음
-                // if (){
-                //     // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
-                //     marker.setMap(null);   
-                // }
-            }
+                
+            } 
             
         })
-    })
+    }) 
 }
+
+
+
+//다른 행의 위치보기 아이콘 누르면 입힌 마커 없어지게
+//같은 행의 아이콘 또 눌러도 마커 또 위에 생기지 않게하고싶음
+    //지도위에 var MarkerImg가 없을때만 showMarker()를 실행(클릭했을 때 이전의 MarkerImg를 없애고 입력받은 주소에 MarkerImg를 찍음)
+                // if (marker exists){
+                //     // 아래 코드는 지도 위의 마커를 제거하는 코드입니다
+                //     marker.setMap(null);   //마커를 없앤다
+                //     showMarker(); //사용자가 클릭한 셀의 주소에 마커를 찍는 함수
+                // } else{ showMarker();}
+                //showMarker()실행할때 마다 이전 결과값을 초기화할수는 없나
+
 
 // //마커찍기
 // var geocoder = new kakao.maps.services.Geocoder();
