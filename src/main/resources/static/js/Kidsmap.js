@@ -143,7 +143,7 @@ function showMarker(){
                 //markerImg클래스 클릭횟수 카운트 0=i 이면 생성 초과면 marker.setPosition(coords);
                 if (counterVal==0){
                     counterVal++;
-                    alert(counterVal);
+                    //alert(counterVal); 카운터 올라가는지 확인용
                 //새 마커를 생성합니다
                 marker = new kakao.maps.Marker({ //if문 안에서 var marker라고 쓰면 else에서 marker 인식 못함
                 map: map,
