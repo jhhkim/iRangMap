@@ -34,7 +34,7 @@ public class Member extends Timestamped {
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
-//    @Builder
+    @Builder
     public Member(String password, String email, Role role) {
         
         this.password = password;

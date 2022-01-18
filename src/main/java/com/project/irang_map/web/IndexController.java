@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 public class IndexController {
     private final KidsmapService kidsmapService;
+    //전체목록을 화면으로
     // @GetMapping("/")
     // public String kidsmap(Model model){
     //     model.addAttribute("kidsmap", kidsmapService.findAll());
@@ -32,6 +33,11 @@ public class IndexController {
     @GetMapping("/")
     public String kidsmap(){
         return "kidsmap";
+    }
+
+    @GetMapping("/board")
+    public String board(){
+        return "board";
     }
 
     @GetMapping("/login")

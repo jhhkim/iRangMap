@@ -1,4 +1,4 @@
-input[type=text], input[type=password]{
+input.emailbox[type=text], input[type=password]{  /*input[type=text]로 kidsmap.css 검색창 width=80%줘서 emailbox 클래스 추가*/
     width:100%;
     padding: 12px 20px;
     margin: 8px 0;
